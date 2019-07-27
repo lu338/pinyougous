@@ -15,40 +15,38 @@ public class ItemController {
 
     @Reference
     private GoodsService goodsService;
-
     @Reference
     private ItemCatService itemCatService;
 
-
-
     /**
-     * 跳转到商品详情页面显示商品
-     *
-     * @param goodsId 商品 id
-     * @return 商品详情页
+     * 根据商品spu id查询商品基本、描述、sku列表，并加载商品1、2、3级商品分类中文名称
+     * @param goodsId 商品spu id
+     * @return 商品信息和视图名称
      */
     @GetMapping("/{goodsId}")
-    public ModelAndView toItemPage(@PathVariable Long goodsId ) {
+    public ModelAndView toItemPage(@PathVariable Long goodsId){
         ModelAndView mv = new ModelAndView("item");
-          // 根据商品 id 查询商品基本、描述、 SKU 列表
-         Goods goods = goodsService.findGoodsByIdAndStatus(goodsId,"1");
-          // 商品基本信息
-         mv.addObject("goods", goods.getGoods());
-          // 商品描述信息
-         mv.addObject("goodsDesc", goods.getGoodsDesc());
-         // 商品sku列表
-        mv.addObject("itemList",goods.getItemList());
-        // 第一级商品分类
+
+        //根据商品spu id查询商品基本、描述、sku列表（已启用，根据是否默认降序排序）
+        Goods goods = goodsService.findGoodsByIdAndStatus(goodsId, "1");
+
+        //goods 商品基本信息
+        mv.addObject("goods", goods.getGoods());
+        //goodsDesc 商品描述信息
+        mv.addObject("goodsDesc", goods.getGoodsDesc());
+        //itemList 商品sku列表；（已启用；需要根据是否默认排序，降序排序）
+        mv.addObject("itemList", goods.getItemList());
+
+        //itemCat1 第1级商品分类中文名称
         TbItemCat itemCat1 = itemCatService.findOne(goods.getGoods().getCategory1Id());
-        mv.addObject("itemCat1",itemCat1.getName());
+        mv.addObject("itemCat1", itemCat1.getName());
+        //itemCat2 第2级商品分类中文名称
+        TbItemCat itemCat2 = itemCatService.findOne(goods.getGoods().getCategory2Id());
+        mv.addObject("itemCat2", itemCat2.getName());
+        //itemCat3 第3级商品分类中文名称
+        TbItemCat itemCat3 = itemCatService.findOne(goods.getGoods().getCategory3Id());
+        mv.addObject("itemCat3", itemCat3.getName());
 
-        // 第二级商品分类
-        TbItemCat itemCat2 = itemCatService.findOne(goods.getGoods().getCategory1Id());
-        mv.addObject("itemCat2",itemCat2.getName());
-
-        // 第三级商品分类
-        TbItemCat itemCat3 = itemCatService.findOne(goods.getGoods().getCategory1Id());
-        mv.addObject("itemCat3",itemCat3.getName());
         return mv;
     }
 }

@@ -1,6 +1,8 @@
 var app = new Vue({
     el: "#app",
     data: {
+        //当前选中的sku
+        sku:{},
         num: 1,
         //记录选择了的规格
         specificationItems: {}
