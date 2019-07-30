@@ -13,6 +13,12 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- redis 缓存  -->
         <dependency>
             <groupId>redis.clients</groupId>
