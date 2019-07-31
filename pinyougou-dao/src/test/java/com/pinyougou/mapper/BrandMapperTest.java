@@ -19,17 +19,16 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring/*.xml")
 public class BrandMapperTest {
-
-    @Autowired
+   @Autowired
     private BrandMapper brandMapper;
 
 
-    /**
+   /* *
      * 新增
      * insert into tb_brand(id, name, first_char) values(?,?,?);
      * 选择性新增 如果brand实例不设置firstChar属性值的话；那么插入语句：
-     * insert into tb_brand(id, name) values(?,?);
-     */
+     * insert into tb_brand(id, name) values(?,?);*/
+
     @Test
     public void insertSelective() {
         TbBrand brand = new TbBrand();
@@ -38,12 +37,12 @@ public class BrandMapperTest {
         brandMapper.insertSelective(brand);
     }
 
-    /**
+   /* *
      * 更新
      * update tb_brand set name=?,first_char=?(null) where id=?
      * 选择性更新 如果brand实例不设置firstChar属性值的话；那么插入语句：
-     * update tb_brand set name=? where id=?;
-     */
+     * update tb_brand set name=? where id=?;*/
+
     @Test
     public void updateByPrimaryKeySelective() {
         TbBrand brand = new TbBrand();
@@ -111,11 +110,12 @@ public class BrandMapperTest {
     public void insertList(){
         List<TbBrand> list = new ArrayList<>();
         TbBrand brand = new TbBrand();
-        brand.setName("Lu");
+        brand.setName("test1");
         brand.setFirstChar("T");
         list.add(brand);
+
         brand = new TbBrand();
-        brand.setName("Lu1");
+        brand.setName("test2");
         brand.setFirstChar("T");
         list.add(brand);
 
@@ -125,7 +125,7 @@ public class BrandMapperTest {
     //批量删除
     @Test
     public void deleteByIds(){
-        Long[] ids = {26L, 27L,28L};
+        Long[] ids = {26L, 27L};
         //StringUtils.join(ids, ",") 表示将数组所有元素使用,连接
         brandMapper.deleteByIds(StringUtils.join(ids, ","));
     }

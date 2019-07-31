@@ -1,6 +1,5 @@
 package com.pinyougou.service.impl;
 
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pinyougou.mapper.BaseMapper;
@@ -13,10 +12,16 @@ import java.util.List;
 
 public abstract class BaseServiceImpl<T> implements BaseService<T> {
 
+    //在spring 4.x+ 可以使用泛型依赖注入
     @Autowired
     private BaseMapper<T> mapper;
 
+/*
+    public void setMapper(BaseMapper<T> mapper) {
+        this.mapper = mapper;
+    }
 
+*/
     @Override
     public T findOne(Serializable id) {
         return mapper.selectByPrimaryKey(id);
@@ -44,18 +49,17 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         PageHelper.startPage(pageNum, pageSize);
         List<T> list = mapper.select(t);
         return new PageInfo<>(list);
+
     }
 
     @Override
     public void add(T t) {
         mapper.insertSelective(t);
-
     }
 
     @Override
     public void update(T t) {
         mapper.updateByPrimaryKeySelective(t);
-
     }
 
     @Override
