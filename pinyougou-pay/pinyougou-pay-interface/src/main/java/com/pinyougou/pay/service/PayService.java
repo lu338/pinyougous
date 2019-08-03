@@ -17,4 +17,6 @@ public interface PayService {
      * @return 查询结果
      */
     Map<String, String> queryPayStatus(String outTradeNo);
+
+    Map<String, String> closeOrder(String outTradeNo);
 }
